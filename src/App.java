@@ -5,7 +5,7 @@ import java.awt.*;
 public class App extends JFrame {
     private JButton[] button = new JButton[9];
     private boolean turn;
-    char currentTurnChar;
+    char currentTurn;
 
     int[][] winPositions = {
             {0, 1, 2},
@@ -36,6 +36,7 @@ public class App extends JFrame {
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setBackground(new Color(0x16171d));
         setTitle();
 
         Border border = BorderFactory.createLineBorder(new Color(0x16171d));
@@ -44,17 +45,20 @@ public class App extends JFrame {
             int index = i;
             button[i] = new JButton("");
             button[i].setBorder(border);
-            button[i].setFont(new Font("Arial", Font.BOLD, 36));
+            button[i].setFont(new Font("Arial", Font.BOLD, 70));
+            button[i].setContentAreaFilled(false);
+            button[i].setFocusPainted(false);
+            button[i].setBackground(new Color(0xECF1FD));
             add(button[i]);
 
             button[i].addActionListener(e -> {
                 System.out.println("button" + index + " " + turn);
                 if (button[index].getText().equals("")) {
                     turn = !turn;
-                    currentTurnChar = turn ? 'X' : 'O';
+                    currentTurn = turn ? 'x' : 'o';
                     setTitle();
-                    button[index].setText(String.valueOf(currentTurnChar));
-                    board[index] = currentTurnChar;
+                    button[index].setText(String.valueOf(currentTurn));
+                    board[index] = currentTurn;
                     checkWinner();
                 }
             });
@@ -66,29 +70,31 @@ public class App extends JFrame {
     char[] board = new char[9];
 
     public void checkWinner() {
+
         for (int i = 0; i < winPositions.length; i++) {
             int pos1 = winPositions[i][0];
             int pos2 = winPositions[i][1];
             int pos3 = winPositions[i][2];
 
             if (board[pos1] != '\0' && board[pos1] == board[pos2] && board[pos2] == board[pos3]) {
-                System.out.println(currentTurnChar + " Победил!");
-                JOptionPane.showMessageDialog(null, currentTurnChar + " Победил!", "Игра закончилась!", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(currentTurn + " Победил!");
+                JOptionPane.showMessageDialog(null, currentTurn + " Победил!", "Игра закончилась!", JOptionPane.INFORMATION_MESSAGE);
                 clearBoard();
-                break;
+                return;
             }
-            boolean draw = true;
-            for (int j = 0; j < 9; j++) {
-                if (button[j].getText().equals("")) {
-                    draw = false;
-                }
-            }
-            if (draw) {
-                JOptionPane.showMessageDialog(null, "У нас ничья!", "Игра закончилась!", JOptionPane.INFORMATION_MESSAGE);
-                clearBoard();
+        }
+        boolean draw = true;
+        for (int j = 0; j < 9; j++) {
+            if (button[j].getText().equals("")) {
+                draw = false;
                 break;
             }
         }
+        if (draw) {
+            JOptionPane.showMessageDialog(null, "У нас ничья!", "Игра закончилась!", JOptionPane.INFORMATION_MESSAGE);
+            clearBoard();
+        }
+
     }
 
 }
