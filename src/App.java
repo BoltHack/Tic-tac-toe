@@ -91,7 +91,7 @@ public class App extends JFrame {
             }
         }
         if (draw) {
-            JOptionPane.showMessageDialog(null, "У нас ничья!", "Игра закончилась!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "У вас ничья!", "Игра закончилась!", JOptionPane.INFORMATION_MESSAGE);
             clearBoard();
         }
 
